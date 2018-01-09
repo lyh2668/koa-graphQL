@@ -1,11 +1,16 @@
-import Mongoose from 'mongoose'
+import Mongoose, { SchemaTypes } from 'mongoose'
 
 const Schema = Mongoose.Schema
+const ObjectId = SchemaTypes.ObjectId
 
-const SchemaInfo = new Schema({
-  hobby: [String],
-  height: String,
-  weight: Number,
+const SchemaStudent = new Schema({
+  name: String,
+  sex: String,
+  age: Number,
+  info: {
+    type: ObjectId,
+    ref: 'Info'
+  },
   meta: {
     createdAt: {
       type: Date,
@@ -18,7 +23,7 @@ const SchemaInfo = new Schema({
   }
 })
 
-SchemaInfo.pre('save', function (next) {
+SchemaStudent.pre('save', function (next) {
   if (this.isNew) {
     this.meta.createdAt = this.meta.updatedAt = Date.now()
   } else {
@@ -28,4 +33,4 @@ SchemaInfo.pre('save', function (next) {
   next()
 })
 
-Mongoose.model('Info', SchemaInfo)
+export default Mongoose.model('Student', SchemaStudent)
