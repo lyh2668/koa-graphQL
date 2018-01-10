@@ -4,8 +4,7 @@ import Router from 'koa-router'
 import BodyParser from 'koa-bodyparser'
 
 import './mongodb'
-import Info from './controller/info'
-import Student from './controller/student'
+import GraphqlRouter from './router'
 
 const app = new Koa()
 const router = new Router()
@@ -13,16 +12,7 @@ const router = new Router()
 app.use(BodyParser())
 app.use(KoaStatic(__dirname + '/public'))
 
-router.get('/api', (ctx, next) => {
-  ctx.body = 'test page'
-})
-
-router.post('/info/save', Info.saveInfo)
-router.get('/info', Info.fetchInfo)
-
-router.post('/student/save', Student.saveStudent)
-router.get('/student', Student.fetchStudent)
-router.get('/student/detail', Student.fetchStudentDetail)
+router.use('', GraphqlRouter.routes())
 
 app
   .use(router.routes())

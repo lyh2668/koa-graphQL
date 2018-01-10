@@ -1,6 +1,7 @@
 import InfoModel from '../models/info'
 
 class Info {
+
   constructor () {}
 
   async saveInfo (ctx, next) {
